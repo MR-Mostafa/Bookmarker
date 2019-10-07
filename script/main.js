@@ -31,8 +31,8 @@ class UI {
                     <a href="${data.url}" target="_blank" title="Open Website">
                         <img src="./images/link.svg" alt="${data.name}">
                     </a>
-                    <span title="Remove Item">
-                        <img src="./images/remove.svg" alt="remove item">
+                    <span title="Delete Item">
+                        <img src="./images/remove.svg" alt="delete item">
                     </span>
                 </p>
         `;
@@ -46,7 +46,7 @@ class UI {
         const url = el.parentElement.previousElementSibling.href;
         Store.removeBookmarkFromStorage(name, url);
         li.remove();
-        UI.showAlert('This item has been deleted', 'success')
+        UI.showAlert('This item has been deleted', 'success');
     } //removeBookmarkFromDOM
 
     static showAlert(message, className) {
@@ -148,7 +148,7 @@ document.querySelector('#form .btn').addEventListener('click', function (e) {
 document.addEventListener('DOMContentLoaded', UI.displayBookmark);
 
 document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
-    if (e.target.tagName == 'IMG' && e.target.alt == 'remove item') {
+    if (e.target.tagName == 'IMG' && e.target.alt == 'delete item') {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
