@@ -52,6 +52,12 @@ class UI {
             stopOnFocus: true, // Prevents dismissing of toast on hover
         }).showToast();
     } //showAlert
+
+    // after submiting, all fields will be cleared
+    static clearFields() {
+        document.querySelector('#form #site-name').value = '';
+        document.querySelector('#form #site-url').value = '';
+    } //clearFields
 }
 
 /*
@@ -112,6 +118,7 @@ document.querySelector('#form .btn').addEventListener('click', function (e) {
             UI.showAlert('The bookmark has been added', 'success');
             UI.addBookmarksToDOM(fieldsData);
             Store.addBookmarkToStorage(fieldsData);
+            UI.clearFields();
         }
     }
 
