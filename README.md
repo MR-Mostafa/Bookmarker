@@ -9,14 +9,15 @@
 ## Demo
 [Click here](https://mr-mostafa.github.io/Bookmarker/)
 
-## ScrenShot
+## ScreenShot
 <p align="center">
     <img src="https://mr-mostafa.github.io/Bookmarker/images/screenshot.jpg">
 </p>
 
 ## Thanks
+- [Bootstrap](https://github.com/twbs/bootstrap/)
 - [Toastify JS](https://github.com/apvarun/toastify-js/)
-- [sweetalert2](https://github.com/sweetalert2/sweetalert2)
+- [sweetalert2](https://github.com/sweetalert2/sweetalert2/)
 
 ## License
 `Bookmarker` released under the [MIT License](https://opensource.org/licenses/MIT)
