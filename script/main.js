@@ -41,7 +41,11 @@ class UI {
     } //addBookmarksToDOM
 
     static removeBookmarkFromDOM(el) {
-        console.log(el.parentElement)
+        const li = el.parentElement.parentElement.parentElement;
+        const name = el.parentElement.parentElement.previousElementSibling.textContent;
+        const url = el.parentElement.previousElementSibling.href;
+        Store.removeBookmarkFromStorage(name, url);
+        li.remove();
     } //removeBookmarkFromDOM
 
     static showAlert(message, className) {
@@ -84,6 +88,10 @@ class Store {
         datas.push(data);
         localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //addBookmark
+
+    static removeBookmarkFromStorage(name, url) {
+
+    } //removeBookmarkFromStorage
 }
 
 /*
