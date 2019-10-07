@@ -1,3 +1,20 @@
+/*
+====================== define Variable ======================
+*/
+const VAR = {
+    name: document.querySelector('#form #site-name'),
+    url: document.querySelector('#form #site-url'),
+    submit: document.querySelector('#form .submit'),
+    editBtnDiv: document.querySelector('#form .edit-btn'),
+    save: document.querySelector('#form .edit-btn .save'),
+    cancel: document.querySelector('#form .edit-btn .cancel'),
+    ul: document.querySelector('ul#bookmarks')
+}
+
+
+/*
+====================== class Bookmark ======================
+*/
 class Bookmark {
     constructor(name, url) {
         this.name = name;
@@ -21,7 +38,6 @@ class UI {
     }//getBookmark
 
     static addBookmarksToDOM(data) {
-        const ul = document.querySelector('ul#bookmarks');
         const item = document.createElement('li');
 
         item.className = 'd-flex flex-row align-items-center';
@@ -40,7 +56,7 @@ class UI {
                 </p>
         `;
 
-        ul.appendChild(item);
+        VAR.ul.appendChild(item);
     } //addBookmarksToDOM
 
     static editBookmark(el) {
@@ -102,7 +118,6 @@ class Store {
         datas.forEach(function (data, index) {
             if (data.name == name && (data.url == url || data.url + '/')) {
                 datas.splice(index, 1);
-
             }
         });
         localStorage.setItem('bookmarks', JSON.stringify(datas));
@@ -112,10 +127,10 @@ class Store {
 /*
 ====================== Event ======================
 */
-document.querySelector('#form .submit').addEventListener('click', function (e) {
+VAR.submit.addEventListener('click', function (e) {
     e.preventDefault();
-    const siteName = document.querySelector('#form #site-name').value.trim();
-    const siteURL = document.querySelector('#form #site-url').value.trim();
+    const siteName = VAR.name.value.trim();
+    const siteURL = VAR.url.value.trim();
     const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     const bookmarks = Store.getBookmark();
     let error = false;
@@ -152,7 +167,7 @@ document.querySelector('#form .submit').addEventListener('click', function (e) {
 
 document.addEventListener('DOMContentLoaded', UI.displayBookmark);
 
-document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
+VAR.ul.addEventListener('click', function (e) {
     // delete item
     if (e.target.tagName == 'IMG' && e.target.alt == 'delete item') {
         Swal.fire({
@@ -172,43 +187,46 @@ document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
 
     // edit item
     if (e.target.tagName == 'IMG' && e.target.alt == 'edit item') {
-
         const li = e.target.parentElement.parentElement.parentElement,
             oldName = e.target.parentElement.parentElement.previousElementSibling.textContent,
             oldUrl = e.target.parentElement.previousElementSibling.href,
-            submit = document.querySelector('#form .submit'),
-            editBtnDiv = document.querySelector('#form .edit-btn'),
-            name = document.querySelector('#form #site-name'),
-            url = document.querySelector('#form #site-url'),
-            editingLi = document.querySelectorAll('ul#bookmarks li');
+            items = document.querySelectorAll('ul#bookmarks li');
 
-
-        editingLi.forEach(function (item) {
+        items.forEach(function (item) {
             item.classList.add('not-editing');
             item.classList.remove('editing');
         });
 
-
-        submit.style.display = 'none';
-        editBtnDiv.style.display = 'block';
-        name.value = oldName;
-        url.value = oldUrl;
+        VAR.submit.style.display = 'none';
+        VAR.editBtnDiv.style.display = 'block';
+        VAR.name.value = oldName;
+        VAR.url.value = oldUrl;
         li.classList.remove('not-editing');
         li.classList.add('editing');
     }
 });
 
-document.querySelector('#form .cancel').addEventListener('click', function () {
+VAR.cancel.addEventListener('click', function () {
+    const items = document.querySelectorAll('ul#bookmarks li');
 
+    items.forEach(function (item) {
+        item.classList.remove('not-editing');
+        item.classList.remove('editing');
+    });
+
+    VAR.submit.style.display = 'block';
+    VAR.editBtnDiv.style.display = 'none';
+    VAR.name.value = '';
+    VAR.url.value = '';
 });
 
-document.querySelector('input#site-url').addEventListener('focus', function () {
+VAR.url.addEventListener('focus', function () {
     if (this.value == '') {
         this.value = 'https://';
     }
 });
 
-document.querySelector('input#site-url').addEventListener('blur', function () {
+VAR.url.addEventListener('blur', function () {
     if (this.value == 'https://') {
         this.value = '';
     }
