@@ -90,7 +90,15 @@ class Store {
     } //addBookmark
 
     static removeBookmarkFromStorage(name, url) {
+        const datas = Store.getBookmark();
 
+        datas.forEach(function (data, index) {
+            if (data.name == name && data.url == url) {
+                datas.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //removeBookmarkFromStorage
 }
 
