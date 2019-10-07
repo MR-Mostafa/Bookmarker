@@ -67,6 +67,12 @@ body {
   padding: 11px 10px 7px;
   font-size: 1rem;
 }
+#form .edit-btn {
+  display: none;
+}
+#form .edit-btn button {
+  width: 49%;
+}
 /*
 ====================== #bookmarks ======================
 */
@@ -75,12 +81,13 @@ body {
 }
 #bookmarks li {
   list-style: none;
-  padding: 15px;
+  padding: 10px 15px;
   margin-bottom: 15px;
   position: relative;
   font-size: 1.1rem;
-  height: 65px;
+  min-height: 65px;
   vertical-align: middle;
+  transition: transform 0.2s ease;
 }
 #bookmarks li::before {
   counter-increment: item;
@@ -89,18 +96,35 @@ body {
   font-size: 2.5rem;
   line-height: 1.2;
   transform: translateY(-1px);
-  border-right: 1px dashed rgba(0, 0, 0, 0.25);
   padding-right: 12px;
   color: #006991;
+}
+#bookmarks li.editing {
+  transform: scale(1.05);
+}
+#bookmarks li.not-editing {
+  opacity: 0.7;
+}
+#bookmarks li.editing span[title="Delete Item"],
+#bookmarks li.not-editing span[title="Delete Item"] {
+  pointer-events: none;
+  filter: grayscale(1);
+  opacity: 0.2;
+}
+#bookmarks li p {
+  padding: 5px 0;
 }
 #bookmarks li p.title {
   font-weight: bold;
   padding-left: 15px;
-  padding-right: 15px;
+  padding-right: 10px;
   text-transform: capitalize;
+  line-height: 2.1;
+  letter-spacing: 1px;
+  border-left: 1px dashed rgba(0, 0, 0, 0.2);
 }
 #bookmarks li p.buttons {
-  flex-basis: 75px;
+  flex-basis: 105px;
   text-align: right;
 }
 #bookmarks li span,
