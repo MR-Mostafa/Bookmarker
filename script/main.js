@@ -46,6 +46,7 @@ class UI {
         const url = el.parentElement.previousElementSibling.href;
         Store.removeBookmarkFromStorage(name, url);
         li.remove();
+        UI.showAlert('This item has been deleted', 'success')
     } //removeBookmarkFromDOM
 
     static showAlert(message, className) {
