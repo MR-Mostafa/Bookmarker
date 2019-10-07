@@ -59,6 +59,10 @@ class UI {
         VAR.ul.appendChild(item);
     } //addBookmarksToDOM
 
+    static editBookmark(el) {
+
+    } //editBookmark
+
     static removeBookmarkFromDOM(el) {
         const li = el.parentElement.parentElement.parentElement;
         const name = el.parentElement.parentElement.previousElementSibling.textContent;
