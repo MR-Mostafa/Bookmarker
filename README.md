@@ -1,10 +1,8 @@
 # Bookmarker
 
-<p align="center">
 ![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)  ![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
-</p>
 
-Bookmarker is a lightweight JavaScript library (without any dependency / vanilla JS), where you can save your favorite websites or links.
+`Bookmarker` is a lightweight JavaScript library (without any dependency / vanilla JS), where you can save your favorite websites or links.
 **Note:** The data is stored in the local storage.
 
 ## Demo
@@ -12,7 +10,7 @@ Bookmarker is a lightweight JavaScript library (without any dependency / vanilla
 
 ## ScrenShot
 <p align="center">
-![screenshot](https://mr-mostafa.github.io/Bookmarker/images/screenshot.jpg)
+    <img src="https://mr-mostafa.github.io/Bookmarker/images/screenshot.jpg">
 </p>
 
 ## Thanks
