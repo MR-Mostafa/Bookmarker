@@ -1,5 +1,4 @@
 .vscode
 /PSD
 css
-*.css
-*.css
+css/style.css
