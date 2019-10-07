@@ -1,0 +1,137 @@
+@import './toastify.css';
+
+* {
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    border: none;
+}
+input,
+span,
+a,
+img {
+    display: inline-block;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+    font-family: 'Merienda';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Merienda'), local('Merienda-Regular_0_wt'), url('../font/Merienda-Regular.ttf') format('woff2');
+}
+body{
+    font-family: 'Merienda', Tahoma, Verdana, sans-serif;
+    font-size: 0.9rem;
+    background-color: #00364b;
+}
+
+/*
+====================== #form ======================
+*/
+#form{
+    background-color: #f2f7fd;
+    border-radius: 4px;
+    border: 1px solid #eff3f8;
+    box-shadow: 0 0 7px 0.5px rgba(0,0,0,0.15);
+    padding: 30px;
+
+    & h2{
+        color: #535353;
+        font-size: 1.7rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    & label{
+        color: #787878;
+    }
+
+    & input{
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        padding: 12px 10px;
+        height: auto;
+        color: #787878;
+    }
+
+    & button{
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        padding: 11px 10px 7px;
+        font-size: 1rem;
+    }
+}
+
+
+/*
+====================== #bookmarks ======================
+*/
+#bookmarks{
+    counter-reset: item;
+
+    & li{
+        &:extend(#form);
+        list-style: none;
+        padding: 15px;
+        margin-bottom: 15px;
+        position: relative;
+        font-size: 1.1rem;
+        height: 65px;
+        vertical-align: middle;
+
+        &::before{
+            counter-increment: item;
+            content: counter(item);
+            display: block;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            transform: translateY(-1px);
+            border-right: 1px dashed rgba(0, 0, 0, 0.25);
+            padding-right: 12px;
+            color: #006991;
+        }
+
+        & p{
+            &.title{
+                font-weight: bold;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            &.buttons{
+                flex-basis: 75px;
+                text-align: right;
+            }
+        }
+
+        & span,
+        & a{
+            cursor: pointer;
+            filter: grayscale(0.4) brightness(0.95);
+            transition: filter 0.2s ease;
+
+            &:hover{
+                filter: grayscale(0) brightness(0.8);
+            }
+
+            &:active{
+                filter: grayscale(0) brightness(0.4);
+            }
+        }
+
+        & img{
+            width: 30px;
+            height: 30px;
+        }
+    } //li
+}
