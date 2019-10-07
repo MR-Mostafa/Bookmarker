@@ -59,9 +59,9 @@ class UI {
         VAR.ul.appendChild(item);
     } //addBookmarksToDOM
 
-    static editBookmark(el) {
+    static editBookmarkFromDOM(name, url) {
 
-    } //editBookmark
+    } //editBookmarkFromDOM
 
     static removeBookmarkFromDOM(el) {
         const li = el.parentElement.parentElement.parentElement;
@@ -111,7 +111,7 @@ class Store {
         const datas = Store.getBookmark();
         datas.push(data);
         localStorage.setItem('bookmarks', JSON.stringify(datas));
-    } //addBookmark
+    } //addBookmarkToStorage
 
     static removeBookmarkFromStorage(name, url) {
         const datas = Store.getBookmark();
@@ -122,6 +122,10 @@ class Store {
         });
         localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //removeBookmarkFromStorage
+
+    static editBookmarkFromStorage(name, url) {
+
+    } //editBookmarkFromStorage
 }
 
 /*
