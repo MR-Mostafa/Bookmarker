@@ -27,10 +27,13 @@ class UI {
         item.className = 'd-flex flex-row align-items-center';
         item.innerHTML = `
                 <p class="title">${data.name}</p>
-                <p class="buttons ml-auto">
+                <p class="buttons flex-shrink-0 ml-auto">
                     <a href="${data.url}" target="_blank" title="Open Website">
                         <img src="./images/link.svg" alt="${data.name}">
                     </a>
+                    <span title="Edit Item">
+                        <img src="./images/edit.svg" alt="edit item">
+                    </span>
                     <span title="Delete Item">
                         <img src="./images/remove.svg" alt="delete item">
                     </span>
@@ -39,6 +42,10 @@ class UI {
 
         ul.appendChild(item);
     } //addBookmarksToDOM
+
+    static editBookmark(el) {
+
+    } //editBookmark
 
     static removeBookmarkFromDOM(el) {
         const li = el.parentElement.parentElement.parentElement;
@@ -105,10 +112,10 @@ class Store {
 /*
 ====================== Event ======================
 */
-document.querySelector('#form .btn').addEventListener('click', function (e) {
+document.querySelector('#form .submit').addEventListener('click', function (e) {
     e.preventDefault();
-    const siteName = document.querySelector('#form #site-name').value;
-    const siteURL = document.querySelector('#form #site-url').value;
+    const siteName = document.querySelector('#form #site-name').value.trim();
+    const siteURL = document.querySelector('#form #site-url').value.trim();
     const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     const bookmarks = Store.getBookmark();
     let error = false;
@@ -132,7 +139,7 @@ document.querySelector('#form .btn').addEventListener('click', function (e) {
             });
         }
 
-        // save bookmark
+        // save new bookmark
         if (error == false) {
             const fieldsData = new Bookmark(siteName, siteURL);
             UI.showAlert('The bookmark has been added', 'success');
@@ -141,12 +148,12 @@ document.querySelector('#form .btn').addEventListener('click', function (e) {
             UI.clearFields();
         }
     }
-
 });
 
 document.addEventListener('DOMContentLoaded', UI.displayBookmark);
 
 document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
+    // delete item
     if (e.target.tagName == 'IMG' && e.target.alt == 'delete item') {
         Swal.fire({
             title: 'Are you sure?',
@@ -162,6 +169,37 @@ document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
             }
         })
     }
+
+    // edit item
+    if (e.target.tagName == 'IMG' && e.target.alt == 'edit item') {
+
+        const li = e.target.parentElement.parentElement.parentElement,
+            oldName = e.target.parentElement.parentElement.previousElementSibling.textContent,
+            oldUrl = e.target.parentElement.previousElementSibling.href,
+            submit = document.querySelector('#form .submit'),
+            editBtnDiv = document.querySelector('#form .edit-btn'),
+            name = document.querySelector('#form #site-name'),
+            url = document.querySelector('#form #site-url'),
+            editingLi = document.querySelectorAll('ul#bookmarks li');
+
+
+        editingLi.forEach(function (item) {
+            item.classList.add('not-editing');
+            item.classList.remove('editing');
+        });
+
+
+        submit.style.display = 'none';
+        editBtnDiv.style.display = 'block';
+        name.value = oldName;
+        url.value = oldUrl;
+        li.classList.remove('not-editing');
+        li.classList.add('editing');
+    }
+});
+
+document.querySelector('#form .cancel').addEventListener('click', function () {
+
 });
 
 document.querySelector('input#site-url').addEventListener('focus', function () {
