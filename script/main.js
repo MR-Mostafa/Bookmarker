@@ -40,6 +40,10 @@ class UI {
         ul.appendChild(item);
     } //addBookmarksToDOM
 
+    static removeBookmarkFromDOM(el) {
+        console.log(el.parentElement)
+    } //removeBookmarkFromDOM
+
     static showAlert(message, className) {
         Toastify({
             text: message,
@@ -124,5 +128,10 @@ document.querySelector('#form .btn').addEventListener('click', function (e) {
 
 });
 
-
 document.addEventListener('DOMContentLoaded', UI.displayBookmark);
+
+document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
+    if (e.target.tagName == 'IMG' && e.target.alt == 'remove item') {
+        UI.removeBookmarkFromDOM(e.target);
+    }
+});
