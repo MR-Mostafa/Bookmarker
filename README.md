@@ -11,7 +11,7 @@
 
 ## ScreenShot
 <p align="center">
-    <img src="https://mr-mostafa.github.io/Bookmarker/images/screenshot.jpg">
+    <img src="https://mr-mostafa.github.io/Bookmarker/images/screenshot.png">
 </p>
 
 ## Thanks
