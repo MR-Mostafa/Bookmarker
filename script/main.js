@@ -8,7 +8,8 @@ const VAR = {
     editBtnDiv: document.querySelector('#form .edit-btn'),
     save: document.querySelector('#form .edit-btn .save'),
     cancel: document.querySelector('#form .edit-btn .cancel'),
-    ul: document.querySelector('ul#bookmarks')
+    ul: document.querySelector('ul#bookmarks'),
+    urlRegex: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
 }
 
 
@@ -60,7 +61,12 @@ class UI {
     } //addBookmarksToDOM
 
     static editBookmarkFromDOM(name, url) {
+        let oldName = document.querySelector('ul#bookmarks li.editing .title'),
+            oldUrl = document.querySelector('ul#bookmarks li.editing .buttons a');
 
+        Store.editBookmarkFromStorage(oldName.textContent, oldUrl.href, name, url);
+        oldName.textContent = name;
+        oldUrl.href = url;
     } //editBookmarkFromDOM
 
     static removeBookmarkFromDOM(el) {
@@ -123,9 +129,35 @@ class Store {
         localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //removeBookmarkFromStorage
 
-    static editBookmarkFromStorage(name, url) {
-
+    static editBookmarkFromStorage(oldName, OldUrl, name, url) {
+        const datas = Store.getBookmark();
+        datas.forEach(function (data) {
+            if (data.name == oldName && (data.url == OldUrl || data.url + '/')) {
+                data.name = name;
+                data.url = url;
+            }
+        });
+        localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //editBookmarkFromStorage
+}
+
+/*
+====================== function ======================
+*/
+const cancel = function () {
+    const items = document.querySelectorAll('ul#bookmarks li');
+
+    items.forEach(function (item) {
+        item.classList.remove('not-editing');
+        item.classList.remove('editing');
+    });
+
+    VAR.submit.style.display = 'block';
+    VAR.editBtnDiv.style.display = 'none';
+    VAR.name.value = '';
+    VAR.url.value = '';
+
+    return false;
 }
 
 /*
@@ -134,13 +166,12 @@ class Store {
 VAR.submit.addEventListener('click', function (e) {
     const siteName = VAR.name.value.trim();
     const siteURL = VAR.url.value.trim();
-    const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     const bookmarks = Store.getBookmark();
     let error = false;
 
     if (siteName == '' || siteURL == '') {
         UI.showAlert('Please fill in required fields', 'danger')
-    } else if (!urlRegex.test(siteURL)) {
+    } else if (!VAR.urlRegex.test(siteURL)) {
         UI.showAlert('Please enter a valid URL', 'danger')
     } else {
         //check that the fields are not a duplicated
@@ -185,7 +216,7 @@ VAR.ul.addEventListener('click', function (e) {
             if (result.value) {
                 UI.removeBookmarkFromDOM(e.target);
             }
-        })
+        });
     }
 
     // edit item
@@ -209,22 +240,36 @@ VAR.ul.addEventListener('click', function (e) {
     }
 });
 
+// cancel edit item
 VAR.cancel.addEventListener('click', function () {
-    const items = document.querySelectorAll('ul#bookmarks li');
-
-    items.forEach(function (item) {
-        item.classList.remove('not-editing');
-        item.classList.remove('editing');
-    });
-
-    VAR.submit.style.display = 'block';
-    VAR.editBtnDiv.style.display = 'none';
-    VAR.name.value = '';
-    VAR.url.value = '';
+    cancel();
 });
 
+// save edit item
 VAR.save.addEventListener('click', function () {
+    const name = VAR.name.value.trim(),
+        url = VAR.url.value.trim();
 
+    if (name == '' || url == '') {
+        UI.showAlert('Please fill in required fields', 'danger')
+    } else if (!VAR.urlRegex.test(url)) {
+        UI.showAlert('Please enter a valid URL', 'danger')
+    } else {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, save it!'
+        }).then((result) => {
+            if (result.value) {
+                UI.editBookmarkFromDOM(name, url);
+                cancel();
+            }
+        });
+    }
 });
 
 VAR.url.addEventListener('focus', function () {
