@@ -15,14 +15,14 @@ const VAR = {
 ====================== messages ======================
 */
 const msg = {
-    addBookmark: 'The bookmark has been added',
-    editBookmark: 'This item has been updated',
+    addBookmark: 'The bookmark has been added successfuly',
+    editBookmark: 'This item has been updated successfuly',
     deleteBookmark: 'This item has been deleted',
-    updateError: 'Bookmark information could not be updated.<br>The information may be duplicated or no edits have been made.',
-    fillAllFields: 'Please fill in required fields',
+    updateError: 'Bookmark information could not be updated<br>The information may be duplicated or no edits have been made',
+    fillAllFields: 'Please fill in the required fields',
     invalidURL: 'Please enter a valid URL',
-    duplicateName: 'The Website name is a duplicate.<br>please enter another name',
-    duplicateURL: 'The Website URL is a duplicate.<br>please enter another URL',
+    duplicateName: 'The Website name is a duplicate.<br>please enter another one',
+    duplicateURL: 'The Website URL is a duplicate.<br>please enter another one',
     confirmTitle: 'Are you sure?',
     confirmText: 'You won\'t be able to revert this!',
     confirmDeleteBtnText: 'Yes, delete it!',
@@ -268,6 +268,8 @@ VAR.cancel.addEventListener('click', function () {
 VAR.save.addEventListener('click', function () {
     const name = VAR.name.value.trim().toLowerCase(),
         url = VAR.url.value.trim().toLowerCase(),
+        oldName = document.querySelector('ul#bookmarks li.editing p.title').textContent,
+        oldUrl = document.querySelector('ul#bookmarks li.editing a').href,
         bookmarks = Store.getBookmark(),
         urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     let error = false;
@@ -280,7 +282,10 @@ VAR.save.addEventListener('click', function () {
         //check that the fields are not a duplicated
         if (bookmarks != false) {
             for (let i = bookmarks.length; i--;) {
-                if (bookmarks[i].name == name || bookmarks[i].url == url || bookmarks[i].url == url + '/') {
+                if ((bookmarks[i].name == name && bookmarks[i].name != oldName) ||
+                    (bookmarks[i].url == url && bookmarks[i].url != oldUrl) ||
+                    (bookmarks[i].url == url + '/' && bookmarks[i].url != oldUrl + '/')
+                ) {
                     UI.showAlert(msg.updateError, 'warning');
                     error = true;
                     break;
