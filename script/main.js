@@ -11,6 +11,24 @@ const VAR = {
     ul: document.querySelector('ul#bookmarks')
 }
 
+/*
+====================== messages ======================
+*/
+const msg = {
+    addBookmark: 'The bookmark has been added',
+    editBookmark: 'This item has been updated',
+    deleteBookmark: 'This item has been deleted',
+    updateError: 'Bookmark information could not be updated.<br>The information may be duplicated or no edits have been made.',
+    fillAllFields: 'Please fill in required fields',
+    invalidURL: 'Please enter a valid URL',
+    duplicateName: 'The Website name is a duplicate.<br>please enter another name',
+    duplicateURL: 'The Website URL is a duplicate.<br>please enter another URL',
+    confirmTitle: 'Are you sure?',
+    confirmText: 'You won\'t be able to revert this!',
+    confirmDeleteBtnText: 'Yes, delete it!',
+    confirmSaveBtnText: 'Yes, save it'
+}
+
 
 /*
 ====================== class Bookmark ======================
@@ -66,6 +84,7 @@ class UI {
         Store.editBookmarkFromStorage(oldName.textContent, oldUrl.href, name, url);
         oldName.textContent = name;
         oldUrl.href = url;
+        UI.showAlert(msg.editBookmark, 'success');
     } //editBookmarkFromDOM
 
     static removeBookmarkFromDOM(el) {
@@ -74,7 +93,7 @@ class UI {
         const url = el.parentElement.previousElementSibling.href;
         Store.removeBookmarkFromStorage(name, url);
         li.remove();
-        UI.showAlert('This item has been deleted', 'success');
+        UI.showAlert(msg.deleteBookmark, 'success');
     } //removeBookmarkFromDOM
 
     static showAlert(message, className) {
@@ -163,26 +182,26 @@ const cancel = function () {
 ====================== Event ======================
 */
 VAR.submit.addEventListener('click', function (e) {
-    const siteName = VAR.name.value.trim(),
-        siteURL = VAR.url.value.trim(),
+    const name = VAR.name.value.trim(),
+        url = VAR.url.value.trim(),
         bookmarks = Store.getBookmark(),
         urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     let error = false;
 
-    if (siteName == '' || siteURL == '') {
-        UI.showAlert('Please fill in required fields', 'danger')
+    if (name == '' || url == '') {
+        UI.showAlert(msg.fillAllFields, 'danger')
     } else if (!urlRegex.test(siteURL)) {
-        UI.showAlert('Please enter a valid URL', 'danger')
+        UI.showAlert(msg.invalidURL, 'danger')
     } else {
         //check that the fields are not a duplicated
         if (bookmarks != false) {
             bookmarks.forEach(function (bookmark) {
-                if (bookmark.name == siteName) {
-                    UI.showAlert('The Website name is a duplicate.<br>please enter another name', 'warning');
+                if (bookmark.name == name) {
+                    UI.showAlert(msg.duplicateName, 'warning');
                     error = true;
                 }
-                if (bookmark.url == siteURL) {
-                    UI.showAlert('The Website URL is a duplicate.<br>please enter another URL', 'warning');
+                if (bookmark.url == url) {
+                    UI.showAlert(msg.duplicateURL, 'warning');
                     error = true;
                 }
             });
@@ -190,8 +209,8 @@ VAR.submit.addEventListener('click', function (e) {
 
         // save new bookmark
         if (error == false) {
-            const fieldsData = new Bookmark(siteName, siteURL);
-            UI.showAlert('The bookmark has been added', 'success');
+            const fieldsData = new Bookmark(name, url);
+            UI.showAlert(msg.addBookmark, 'success');
             UI.addBookmarksToDOM(fieldsData);
             Store.addBookmarkToStorage(fieldsData);
             UI.clearFields();
@@ -205,13 +224,13 @@ VAR.ul.addEventListener('click', function (e) {
     // delete item
     if (e.target.tagName == 'IMG' && e.target.alt == 'delete item') {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: msg.confirmTitle,
+            text: msg.confirmText,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: msg.confirmDeleteBtnText
         }).then((result) => {
             if (result.value) {
                 UI.removeBookmarkFromDOM(e.target);
@@ -249,27 +268,43 @@ VAR.cancel.addEventListener('click', function () {
 VAR.save.addEventListener('click', function () {
     const name = VAR.name.value.trim(),
         url = VAR.url.value.trim(),
+        bookmarks = Store.getBookmark(),
         urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    let error = false;
 
     if (name == '' || url == '') {
-        UI.showAlert('Please fill in required fields', 'danger')
+        UI.showAlert(msg.fillAllFields, 'danger')
     } else if (!urlRegex.test(url)) {
-        UI.showAlert('Please enter a valid URL', 'danger')
+        UI.showAlert(msg.invalidURL, 'danger')
     } else {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, save it!'
-        }).then((result) => {
-            if (result.value) {
-                UI.editBookmarkFromDOM(name, url);
-                cancel();
-            }
-        });
+        //check that the fields are not a duplicated
+        if (bookmarks != false) {
+            bookmarks.forEach(function (bookmark) {
+                if (bookmark.name == name || bookmark.url == url) {
+                    UI.showAlert(msg.updateError, 'warning');
+                    error = true;
+                }
+            });
+        }
+
+        // save update bookmark
+        if (error == false) {
+            Swal.fire({
+                title: msg.confirmTitle,
+                text: msg.confirmText,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: msg.confirmSaveBtnText
+            }).then((result) => {
+                if (result.value) {
+                    UI.editBookmarkFromDOM(name, url);
+                    cancel();
+                }
+            });
+        }
+
     }
 });
 
