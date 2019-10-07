@@ -18,6 +18,7 @@
 - [Bootstrap](https://github.com/twbs/bootstrap/)
 - [Toastify JS](https://github.com/apvarun/toastify-js/)
 - [sweetalert2](https://github.com/sweetalert2/sweetalert2/)
+- [Merienda Font](https://fonts.google.com/specimen/Merienda)
 
 ## License
 `Bookmarker` released under the [MIT License](https://opensource.org/licenses/MIT)
