@@ -128,7 +128,6 @@ class Store {
 ====================== Event ======================
 */
 VAR.submit.addEventListener('click', function (e) {
-    e.preventDefault();
     const siteName = VAR.name.value.trim();
     const siteURL = VAR.url.value.trim();
     const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
@@ -218,6 +217,10 @@ VAR.cancel.addEventListener('click', function () {
     VAR.editBtnDiv.style.display = 'none';
     VAR.name.value = '';
     VAR.url.value = '';
+});
+
+VAR.save.addEventListener('click', function () {
+
 });
 
 VAR.url.addEventListener('focus', function () {
