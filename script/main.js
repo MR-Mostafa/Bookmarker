@@ -99,7 +99,7 @@ class UI {
     static showAlert(message, className) {
         Toastify({
             text: message,
-            duration: 4000,
+            duration: 5000,
             newWindow: true,
             close: true,
             gravity: "bottom",
