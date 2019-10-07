@@ -92,13 +92,12 @@ class Store {
 
     static removeBookmarkFromStorage(name, url) {
         const datas = Store.getBookmark();
-
         datas.forEach(function (data, index) {
-            if (data.name == name && data.url == url) {
+            if (data.name == name && (data.url == url || data.url + '/')) {
                 datas.splice(index, 1);
+
             }
         });
-
         localStorage.setItem('bookmarks', JSON.stringify(datas));
     } //removeBookmarkFromStorage
 }
@@ -164,3 +163,15 @@ document.querySelector('ul#bookmarks').addEventListener('click', function (e) {
         })
     }
 });
+
+document.querySelector('input#site-url').addEventListener('focus', function () {
+    if (this.value == '') {
+        this.value = 'https://';
+    }
+});
+
+document.querySelector('input#site-url').addEventListener('blur', function () {
+    if (this.value == 'https://') {
+        this.value = '';
+    }
+})
