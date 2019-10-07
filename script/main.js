@@ -190,7 +190,7 @@ VAR.submit.addEventListener('click', function (e) {
 
     if (name == '' || url == '') {
         UI.showAlert(msg.fillAllFields, 'danger')
-    } else if (!urlRegex.test(siteURL)) {
+    } else if (!urlRegex.test(url)) {
         UI.showAlert(msg.invalidURL, 'danger')
     } else {
         //check that the fields are not a duplicated
@@ -200,7 +200,7 @@ VAR.submit.addEventListener('click', function (e) {
                     UI.showAlert(msg.duplicateName, 'warning');
                     error = true;
                 }
-                if (bookmark.url == url) {
+                if (bookmark.url == url || bookmark.url == url + '/') {
                     UI.showAlert(msg.duplicateURL, 'warning');
                     error = true;
                 }
@@ -279,12 +279,13 @@ VAR.save.addEventListener('click', function () {
     } else {
         //check that the fields are not a duplicated
         if (bookmarks != false) {
-            bookmarks.forEach(function (bookmark) {
-                if (bookmark.name == name || bookmark.url == url) {
+            for (let i = bookmarks.length; i--;) {
+                if (bookmarks[i].name == name || bookmarks[i].url == url || bookmarks[i].url == url + '/') {
                     UI.showAlert(msg.updateError, 'warning');
                     error = true;
+                    break;
                 }
-            });
+            }//for
         }
 
         // save update bookmark
