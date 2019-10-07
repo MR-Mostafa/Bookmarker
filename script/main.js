@@ -182,8 +182,8 @@ const cancel = function () {
 ====================== Event ======================
 */
 VAR.submit.addEventListener('click', function (e) {
-    const name = VAR.name.value.trim(),
-        url = VAR.url.value.trim(),
+    const name = VAR.name.value.trim().toLowerCase(),
+        url = VAR.url.value.trim().toLowerCase(),
         bookmarks = Store.getBookmark(),
         urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     let error = false;
@@ -266,8 +266,8 @@ VAR.cancel.addEventListener('click', function () {
 
 // save edit item
 VAR.save.addEventListener('click', function () {
-    const name = VAR.name.value.trim(),
-        url = VAR.url.value.trim(),
+    const name = VAR.name.value.trim().toLowerCase(),
+        url = VAR.url.value.trim().toLowerCase(),
         bookmarks = Store.getBookmark(),
         urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     let error = false;
