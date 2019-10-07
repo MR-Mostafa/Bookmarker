@@ -8,8 +8,7 @@ const VAR = {
     editBtnDiv: document.querySelector('#form .edit-btn'),
     save: document.querySelector('#form .edit-btn .save'),
     cancel: document.querySelector('#form .edit-btn .cancel'),
-    ul: document.querySelector('ul#bookmarks'),
-    urlRegex: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    ul: document.querySelector('ul#bookmarks')
 }
 
 
@@ -164,14 +163,15 @@ const cancel = function () {
 ====================== Event ======================
 */
 VAR.submit.addEventListener('click', function (e) {
-    const siteName = VAR.name.value.trim();
-    const siteURL = VAR.url.value.trim();
-    const bookmarks = Store.getBookmark();
+    const siteName = VAR.name.value.trim(),
+        siteURL = VAR.url.value.trim(),
+        bookmarks = Store.getBookmark(),
+        urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     let error = false;
 
     if (siteName == '' || siteURL == '') {
         UI.showAlert('Please fill in required fields', 'danger')
-    } else if (!VAR.urlRegex.test(siteURL)) {
+    } else if (!urlRegex.test(siteURL)) {
         UI.showAlert('Please enter a valid URL', 'danger')
     } else {
         //check that the fields are not a duplicated
@@ -248,11 +248,12 @@ VAR.cancel.addEventListener('click', function () {
 // save edit item
 VAR.save.addEventListener('click', function () {
     const name = VAR.name.value.trim(),
-        url = VAR.url.value.trim();
+        url = VAR.url.value.trim(),
+        urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
 
     if (name == '' || url == '') {
         UI.showAlert('Please fill in required fields', 'danger')
-    } else if (!VAR.urlRegex.test(url)) {
+    } else if (!urlRegex.test(url)) {
         UI.showAlert('Please enter a valid URL', 'danger')
     } else {
         Swal.fire({
