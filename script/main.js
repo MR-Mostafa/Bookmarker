@@ -38,7 +38,7 @@ class UI {
         `;
 
         ul.appendChild(item);
-    }
+    } //addBookmarksToDOM
 
     static showAlert(message, className) {
         Toastify({
@@ -51,7 +51,7 @@ class UI {
             className: `text-white bg-${className}`,
             stopOnFocus: true, // Prevents dismissing of toast on hover
         }).showToast();
-    }
+    } //showAlert
 }
 
 /*
