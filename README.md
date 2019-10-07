@@ -3,6 +3,7 @@
 ![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)  ![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
 
 `Bookmarker` is a lightweight JavaScript library (without any dependency / vanilla JS), where you can save your favorite websites or links.
+
 **Note:** The data is stored in the local storage.
 
 ## Demo
